@@ -122,7 +122,9 @@ export const signIn = asyncHandeler(async (req: Request, res: Response) => {
 
 export const forgotPassword = asyncHandeler(
   async (req: Request, res: Response) => {
+    const device = req.header("Device");
     const { username, baseUrl } = req.body;
+    let url = baseUrl;
     const user = await Auth.findOne({ where: { username } });
     if (!user) {
       throw createCustomError("Invalid username", 401);
@@ -133,24 +135,28 @@ export const forgotPassword = asyncHandeler(
       sendingMail(data);
     });
 
+    if (device === "Mobile") {
+      let query = `?uuid=${user.dataValues.unique_id_key}`;
+
+      // Locate the position to insert the query parameter
+      let insertPosition = url.indexOf("#Intent");
+
+      // Insert the query parameter before "#Intent"
+      let newUrl =
+        url.slice(0, insertPosition) + query + url.slice(insertPosition);
+      url = newUrl;
+    } else {
+      url = `${baseUrl}/?uuid=${user.dataValues.unique_id_key}`;
+    }
+
     // Emit the 'emailSent' event with the necessary data
     eventEmitter.emit("emailSent", {
       senderEmail: username,
       subject: staticConfig.forgotPasswordEmail.subject,
       text: ``,
-      htmlTemplate: resetPasswordTemplate(
-        baseUrl,
-        user.dataValues.unique_id_key
-      ),
+      htmlTemplate: resetPasswordTemplate(url),
     });
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          `${baseUrl}/?uuid=${user.dataValues.unique_id_key}`
-        )
-      );
+    return res.status(200).json(new ApiResponse(200, `${url}`));
   }
 );
 

@@ -118,7 +118,7 @@ function isTest() {
   return process.env.IS_CI === "true";
 }
 
-export const resetPasswordTemplate = (baseUrl: string, uniqueId: string) => `
+export const resetPasswordTemplate = (baseUrl: string) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,7 +179,7 @@ export const resetPasswordTemplate = (baseUrl: string, uniqueId: string) => `
       <p>Hello,</p>
       <p>We received a request to reset your password. You can reset your password by clicking one of the links below:</p>
       <p>
-        <a href="${baseUrl}/?uuid=${uniqueId}" class="button">Reset Password</a>
+        <a href="${baseUrl}" class="button">Reset Password</a>
       </p>
       <p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
       <p>Thanks,</p>
