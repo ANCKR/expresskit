@@ -56,6 +56,7 @@ const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const customError_1 = require("./utils/customError");
 const user_route_1 = __importDefault(require("./routes/user.route"));
+const user_fcm_route_1 = __importDefault(require("./routes/userFcm.route"));
 const aiTranslator_route_1 = __importDefault(
   require("./routes/aiTranslator.route")
 );
@@ -137,6 +138,7 @@ app.get("/", (req, res) => {
 app.use("/api", demo_route_1.default);
 app.use("/api", auth_route_1.default);
 app.use("/api", user_route_1.default);
+app.use("/api", user_fcm_route_1.default);
 app.use("/api", aiTranslator_route_1.default);
 function startServer() {
   return __awaiter(this, void 0, void 0, function* () {
