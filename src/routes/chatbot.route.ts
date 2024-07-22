@@ -1,8 +1,8 @@
-import { Router } from "express";
-import { chatfn } from "../controllers/chatbot.controller";
+// import { Router } from "express";
+// import { chatfn } from "../controllers/chatbot.controller";
 
-const router = Router();
+// const router = Router();
 
-router.post("/chat", chatfn);
+// router.post("/chat", chatfn);
 
-export default router;
+// export default router;

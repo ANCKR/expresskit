@@ -54,6 +54,12 @@ export const signUp = asyncHandeler(async (req: Request, res: Response) => {
   if (!passwordCheck) {
     throw createCustomError("invalid password", 401);
   }
+
+  const existedUser = await User.findOne({ where: { username: username } });
+  if (existedUser) {
+    throw createCustomError("Username is already existed", 401);
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
   const uniqueIdKey = uuidv4();
   const user = await Auth.create({

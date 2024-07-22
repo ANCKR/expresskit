@@ -1,8 +1,8 @@
-import { Router } from "express";
-import { aiTranslatorfn } from "../controllers/aiTranslator.controller";
+// import { Router } from "express";
+// import { aiTranslatorfn } from "../controllers/aiTranslator.controller";
 
-const router = Router();
+// const router = Router();
 
-router.post("/aiTranslator", aiTranslatorfn);
+// router.post("/aiTranslator", aiTranslatorfn);
 
-export default router;
+// export default router;
