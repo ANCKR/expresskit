@@ -50,7 +50,8 @@ const allowedOrigins = [
   "http://localhost:3002",
   "http://localhost:3001",
   "http://localhost:3000",
-  "https://3000-idx-nextjs-kit-1721372785129.cluster-3g4scxt2njdd6uovkqyfcabgo6.cloudworkstations.dev/",
+  "http://localhost:8081",
+  "http://192.168.x.x:8081",
 ];
 
 app.use(

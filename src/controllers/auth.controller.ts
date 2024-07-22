@@ -136,14 +136,14 @@ export const forgotPassword = asyncHandeler(
     });
 
     if (device === "Mobile") {
-      let query = `?uuid=${user.dataValues.unique_id_key}`;
+      let query = `?uuid=${user.dataValues.unique_id_key}/`;
 
       // Locate the position to insert the query parameter
       let insertPosition = url.indexOf("#Intent");
 
       // Insert the query parameter before "#Intent"
       let newUrl =
-        url.slice(0, insertPosition) + query + url.slice(insertPosition);
+        url.slice(0, insertPosition - 1) + query + url.slice(insertPosition);
       url = newUrl;
     } else {
       url = `${baseUrl}/?uuid=${user.dataValues.unique_id_key}`;
