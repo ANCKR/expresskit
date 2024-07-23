@@ -110,6 +110,7 @@ app.options("*", (0, cors_1.default)());
 const wss = new ws_1.default.Server({ port: 3001 });
 //payment webhook
 app.use("/api", payment_route_1.default);
+app.use("/api", user_fcm_route_1.default);
 app.use("/api", chatbot_route_1.default);
 wss.on("connection", function connection(ws) {
   ws.send("Welcome New Client!");
@@ -138,7 +139,6 @@ app.get("/", (req, res) => {
 app.use("/api", demo_route_1.default);
 app.use("/api", auth_route_1.default);
 app.use("/api", user_route_1.default);
-app.use("/api", user_fcm_route_1.default);
 app.use("/api", aiTranslator_route_1.default);
 function startServer() {
   return __awaiter(this, void 0, void 0, function* () {

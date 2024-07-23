@@ -9,15 +9,15 @@ const express_1 = require("express");
 const authTokenCheck_1 = __importDefault(
   require("../middleware/authTokenCheck")
 );
-const userController_1 = __importDefault(
+const userFcm_controller_1 = __importDefault(
   require("../controllers/userFcm.controller")
 );
 const router = (0, express_1.Router)();
 
-// router.post(
-//   "/userFcm",
-//   authTokenCheck_1.default,
-//   userFcm_controller_1.createUserFcm
-// );
+router.post(
+  "/userFcm",
+  authTokenCheck_1.default,
+  userFcm_controller_1.createUserFcm
+);
 
 exports.default = router;
