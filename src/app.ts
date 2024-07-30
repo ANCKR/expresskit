@@ -56,16 +56,38 @@ const allowedOrigins = [
   "https://nextjs-kit-eta.vercel.app/",
 ];
 
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, // Reflect the request's credentials as necessary
+//     methods: ["GET", "PUT", "POST", "DELETE"],
+//   })
+// );
+
+// app.options("*", cors());
+
+app.use((req, res, next) => {
+  console.log("Origin:", req.headers.origin);
+  next();
+});
+
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
+        console.log("Blocked Origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Reflect the request's credentials as necessary
+    credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE"],
   })
 );
