@@ -47,14 +47,11 @@ const app = express();
 const port = 3000;
 // app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 
-const allowedOrigins = [
-  "http://localhost:3002",
-  "http://localhost:3001",
-  "http://localhost:3000",
-  "http://localhost:8081",
-  "http://192.168.x.x:8081",
-  "https://nextjs-kit-eta.vercel.app/",
-];
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 // app.use(
 //   cors({
@@ -69,28 +66,6 @@ const allowedOrigins = [
 //     methods: ["GET", "PUT", "POST", "DELETE"],
 //   })
 // );
-
-// app.options("*", cors());
-
-app.use((req, res, next) => {
-  next();
-});
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        logger.info("origin", origin);
-        callback(null, true);
-      } else {
-        logger.info("Blocked Origin:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "PUT", "POST", "DELETE"],
-  })
-);
 
 app.options("*", cors());
 
