@@ -72,11 +72,25 @@ const allowedOrigins = [
 
 // app.options("*", cors());
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+app.use((req, res, next) => {
   next();
 });
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        logger.info("origin", origin);
+        callback(null, true);
+      } else {
+        logger.info("Blocked Origin:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "PUT", "POST", "DELETE"],
+  })
+);
 
 app.options("*", cors());
 
