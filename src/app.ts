@@ -53,6 +53,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8081",
   "http://192.168.x.x:8081",
+  "https://nextjs-kit-eta.vercel.app/",
 ];
 
 app.use(
