@@ -18,7 +18,7 @@ import { resetPasswordTemplate } from "../helper/sendMail";
 const options = {
   httpOnly: true,
   secure: true,
-  sameSite: "none" as "none",
+  sameSite: "None" as "none",
 };
 
 export const generateAccessAndRefereshTokens = async (
