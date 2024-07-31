@@ -47,8 +47,17 @@ const app = express();
 const port = 3000;
 // app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
+  "https://nextjs-kit-eta.vercel.app",
+  "http://localhost:8081",
+  "http://192.168.x.x:8081",
+];
+
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", allowedOrigins);
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
