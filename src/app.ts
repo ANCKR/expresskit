@@ -57,6 +57,11 @@ const allowedOrigins = [
 ];
 
 app.use(function (req, res, next) {
+  res.cookie("cookieName", "cookieValue", {
+    sameSite: "none", // Set SameSite to None
+    secure: true, // Set Secure to true, which requires an HTTPS connection
+    httpOnly: true, // Optional, but good to set for added security (prevents JavaScript access to the cookie)
+  });
   const origin = req.headers.origin;
   logger.info("origin", { origin: origin });
   if (allowedOrigins.includes(origin)) {
@@ -69,6 +74,11 @@ app.use(function (req, res, next) {
 });
 
 app.options("*", function (req, res) {
+  res.cookie("cookieName", "cookieValue", {
+    sameSite: "none", // Set SameSite to None
+    secure: true, // Set Secure to true, which requires an HTTPS connection
+    httpOnly: true, // Optional, but good to set for added security (prevents JavaScript access to the cookie)
+  });
   const origin = req.headers.origin;
   logger.info("options origin", { origin: origin });
   if (allowedOrigins.includes(origin)) {
