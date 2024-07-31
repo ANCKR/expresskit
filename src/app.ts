@@ -57,10 +57,14 @@ const allowedOrigins = [
 ];
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", allowedOrigins);
+  const origin = req.headers.origin;
+  logger.info("origin", { origin: origin });
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
   res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Expose-Headers", ["set-cookie"]);
+  res.header("Access-Control-Expose-Headers", "set-cookie");
   next();
 });
 
@@ -78,7 +82,16 @@ app.use(function (req, res, next) {
 //   })
 // );
 
-app.options("*", cors());
+app.options("*", function (req, res) {
+  const origin = req.headers.origin;
+  logger.info("options origin", { origin: origin });
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(204); // No Content
+});
 
 // const wss = new WebSocket.Server({ port: 3001 });
 
