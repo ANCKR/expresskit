@@ -68,20 +68,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true, // Reflect the request's credentials as necessary
-//     methods: ["GET", "PUT", "POST", "DELETE"],
-//   })
-// );
-
 app.options("*", function (req, res) {
   const origin = req.headers.origin;
   logger.info("options origin", { origin: origin });
