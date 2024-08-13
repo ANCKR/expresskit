@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadFileToSupabaseBase64 = exports.uploadFileToSupabase = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 const customError_1 = require("../utils/customError");
-const SUPABASE_URL = process.env.NEW_SUPABASE_URL;
+const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SECRETKEY;
 const BUCKET_NAME = process.env.SUPABASE_BUCKET;
 const supabaseClient = (0, supabase_js_1.createClient)(SUPABASE_URL, SUPABASE_KEY);
