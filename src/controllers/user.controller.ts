@@ -185,7 +185,7 @@ export const signout = asyncHandeler(async (req: Request, res: Response) => {
 declare global {
   namespace Express {
     interface Request {
-      checkResult?: any; // Replace `any` with a specific type if you have a User type defined
+      checkResult?: any;
     }
   }
 }

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import authenticateToken from "../middleware/authTokenCheck";
 import {
   appVersionInsert,
   showAppVersion,
@@ -7,7 +6,7 @@ import {
 
 const router = Router();
 
-router.post("/versions", authenticateToken, showAppVersion);
-router.post("/versionDetails", authenticateToken, appVersionInsert);
+router.post("/versions", showAppVersion);
+router.post("/versionDetails", appVersionInsert);
 
 export default router;
