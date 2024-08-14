@@ -35,7 +35,6 @@ export const sendNotification = async (
     await admin.messaging().send(message);
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

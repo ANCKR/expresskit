@@ -16,7 +16,6 @@ export const createUserFcm = asyncHandeler(
         { status: 1 },
         { where: { user_id: uuid } }
       );
-      console.log(status);
       return res.status(200).json(new ApiResponse(200, "update successfully"));
     } else {
       const status = await UserFcm.create({
@@ -24,8 +23,6 @@ export const createUserFcm = asyncHandeler(
         fcm_token: fcmToken,
         device_token: deviceToken,
       });
-
-      console.log(status);
       return res.status(200).json(new ApiResponse(200, "create successfully"));
     }
   }

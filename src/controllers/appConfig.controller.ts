@@ -8,13 +8,17 @@ export const showAppVersion = asyncHandeler(
   async (req: Request, res: Response) => {
     const { current_version } = await req.body;
     const currentVersionStatus = await AppConfig.findOne({
-      attributes: ["status"],
+      attributes: ["status", "app_version"],
       where: {
         app_version: current_version,
       },
     });
+    if (!currentVersionStatus) {
+      throw createCustomError("Wrong version you have", 404);
+    }
     if (currentVersionStatus.dataValues.status === "deprecate") {
       const newVersion = await AppConfig.findOne({
+        attributes: ["status", "app_version", "new_changes"],
         where: { status: "active" },
         order: [["createdAt", "DESC"]],
       });
@@ -24,8 +28,7 @@ export const showAppVersion = asyncHandeler(
       }
 
       let versionLog = {
-        app_version: current_version,
-        status: currentVersionStatus.dataValues.status,
+        currentVersion: currentVersionStatus,
         newVersion: newVersion.dataValues,
       };
 
@@ -34,6 +37,7 @@ export const showAppVersion = asyncHandeler(
         .json(new ApiResponse(200, "New version found", versionLog));
     } else {
       const newVersionLog = await AppConfig.findAll({
+        attributes: ["status", "app_version", "new_changes"],
         where: { status: "active" },
         order: [["createdAt", "DESC"]],
       });
@@ -48,6 +52,13 @@ export const showAppVersion = asyncHandeler(
             )
           );
       }
+
+      return res.status(200).json(
+        new ApiResponse(200, "new version found", {
+          currentVersion: currentVersionStatus,
+          newVersion: newVersionLog[0].dataValues,
+        })
+      );
     }
   }
 );
