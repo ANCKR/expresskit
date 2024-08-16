@@ -5,7 +5,8 @@ class AppConfig extends Model {
   public id!: number;
   public app_version!: string;
   public new_changes!: string;
-  public status!: "active" | "deprecate"; // Reflecting the ENUM values
+  public status!: "active" | "deprecate";
+  public isCompulsory!: Boolean;
 }
 
 AppConfig.init(
@@ -23,6 +24,11 @@ AppConfig.init(
     new_changes: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    isCompulsory: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: true,
     },
     status: {
       type: DataTypes.ENUM("active", "deprecate"),

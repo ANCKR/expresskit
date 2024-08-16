@@ -6,7 +6,7 @@ import {
 
 const router = Router();
 
-router.post("/versions", showAppVersion);
+router.get("/versions", showAppVersion);
 router.post("/versionDetails", appVersionInsert);
 
 export default router;

@@ -1,10 +1,8 @@
-'use strict';
-
-const { deprecate } = require('util');
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable("app-configs", {
       id: {
         allowNull: false,
@@ -20,9 +18,13 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      isCompulsory: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.ENUM("active", "deprecate"),
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: "active", // Corrected the default value
         allowNull: true,
       },
       createdAt: {
@@ -36,7 +38,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("app-configs");
-  }
+  },
 };

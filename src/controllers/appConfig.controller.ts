@@ -6,60 +6,16 @@ import { createCustomError } from "../utils/customError";
 
 export const showAppVersion = asyncHandeler(
   async (req: Request, res: Response) => {
-    const { current_version } = await req.body;
-    const currentVersionStatus = await AppConfig.findOne({
-      attributes: ["status", "app_version"],
-      where: {
-        app_version: current_version,
-      },
+    const version = await AppConfig.findOne({
+      attributes: ["status", "app_version", "new_changes", "isCompulsory"],
+      order: [["createdAt", "desc"]],
     });
-    if (!currentVersionStatus) {
-      throw createCustomError("Wrong version you have", 404);
+
+    if (!version) {
+      return res.status(404).json(new ApiResponse(404, "No version found"));
     }
-    if (currentVersionStatus.dataValues.status === "deprecate") {
-      const newVersion = await AppConfig.findOne({
-        attributes: ["status", "app_version", "new_changes"],
-        where: { status: "active" },
-        order: [["createdAt", "DESC"]],
-      });
 
-      if (!newVersion) {
-        throw createCustomError("No version found", 404);
-      }
-
-      let versionLog = {
-        currentVersion: currentVersionStatus,
-        newVersion: newVersion.dataValues,
-      };
-
-      return res
-        .status(200)
-        .json(new ApiResponse(200, "New version found", versionLog));
-    } else {
-      const newVersionLog = await AppConfig.findAll({
-        attributes: ["status", "app_version", "new_changes"],
-        where: { status: "active" },
-        order: [["createdAt", "DESC"]],
-      });
-      if (newVersionLog.length === 1) {
-        return res
-          .status(200)
-          .json(
-            new ApiResponse(
-              200,
-              "New Version found",
-              newVersionLog[0].dataValues
-            )
-          );
-      }
-
-      return res.status(200).json(
-        new ApiResponse(200, "new version found", {
-          currentVersion: currentVersionStatus,
-          newVersion: newVersionLog[0].dataValues,
-        })
-      );
-    }
+    return res.status(200).json(new ApiResponse(200, "Version found", version));
   }
 );
 
@@ -70,6 +26,7 @@ export const appVersionInsert = asyncHandeler(
       const newVersion = await AppConfig.create({
         app_version: version,
         new_changes: details,
+        isCompulsory: 0,
       });
       return res.status(200).json(new ApiResponse(200, "New version uploaded"));
     }
@@ -81,7 +38,14 @@ export const appVersionInsert = asyncHandeler(
       });
 
       if (!existingVersion) {
-        throw createCustomError("Active Version not found", 404);
+        const newVersion = await AppConfig.create({
+          app_version: version,
+          new_changes: details,
+          isCompulsory: 1,
+        });
+        return res
+          .status(200)
+          .json(new ApiResponse(200, "New version uploaded"));
       }
 
       const updateExistingVersion = await AppConfig.update(
@@ -98,6 +62,7 @@ export const appVersionInsert = asyncHandeler(
       const newVersion = await AppConfig.create({
         app_version: version,
         new_changes: details,
+        isCompulsory: 1,
       });
       return res.status(200).json(new ApiResponse(200, "New version uploaded"));
     }
