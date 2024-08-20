@@ -44,7 +44,7 @@ const logger = winston.createLogger({
   format: combine(
     timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     colorize(),
-    winston.format.metadata({ fillExcept: ["message", "level", "timestamp"] })
+    winston.format.metadata({ fillExcept: ["message", "level", "timestamp"] }),
   ),
   transports: [
     new winston.transports.Console({

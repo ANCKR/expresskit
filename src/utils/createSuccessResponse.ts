@@ -9,7 +9,7 @@ interface SuccessResponse {
 export function createSuccessResponse(
   res: Response,
   data?: unknown,
-  statusCode?: number
+  statusCode?: number,
 ) {
   if (typeof data === "string") {
     data = data.toLocaleLowerCase();

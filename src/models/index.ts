@@ -15,7 +15,7 @@ if (config.username || config.password || config.database) {
     config.database,
     config.username,
     config.password,
-    config
+    config,
   );
 } else {
   throw new Error("database variable not exist");

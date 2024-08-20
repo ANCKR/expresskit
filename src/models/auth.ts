@@ -21,7 +21,7 @@ Auth.init(
     sequelize: sequelizeInstance,
     modelName: "auth",
     tableName: "auths",
-  }
+  },
 );
 
 Auth.hasOne(User, {

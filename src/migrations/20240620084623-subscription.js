@@ -35,7 +35,7 @@ export async function up(queryInterface, Sequelize) {
         "incomplete",
         "incomplete_expired",
         "paused",
-        "exhausted"
+        "exhausted",
       ),
     },
     cancel_at_period_end: {

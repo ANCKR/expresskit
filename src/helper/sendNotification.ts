@@ -21,7 +21,7 @@ if (!admin.apps.length) {
 export const sendNotification = async (
   token: string,
   title: string,
-  body: string
+  body: string,
 ) => {
   const message = {
     notification: {

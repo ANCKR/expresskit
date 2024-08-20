@@ -9,7 +9,7 @@ const passwordSchema = z
     (value) => /^[a-zA-Z0-9!@#$%^&*()_+~`|}{[\]:;?><,./-=]{1,15}$/.test(value),
     {
       message: "Password must be alphanumeric",
-    }
+    },
   )
   .refine((value) => /[A-Z]/.test(value), {
     message: "Password must contain at least one capital letter",

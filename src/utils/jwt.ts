@@ -6,13 +6,13 @@ const refreshSecretKey = process.env.JWT_SECRET_KEY_REFRESH;
 
 export async function generateAccessToken(
   payload: object,
-  expiresIn: string = "1h"
+  expiresIn: string = "1h",
 ) {
   return jwt.sign(payload, accessSecretKey, { expiresIn });
 }
 export async function generateRefreshToken(
   payload: object,
-  expiresIn: string = "5h"
+  expiresIn: string = "5h",
 ) {
   return jwt.sign(payload, refreshSecretKey, { expiresIn });
 }

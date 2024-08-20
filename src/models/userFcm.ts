@@ -37,7 +37,7 @@ UserFcm.init(
   {
     sequelize: sequelizeInstance,
     modelName: "userFcm",
-  }
+  },
 );
 Auth.hasMany(UserFcm, { foreignKey: "user_id" });
 UserFcm.belongsTo(Auth, { foreignKey: "unique_id_key" });

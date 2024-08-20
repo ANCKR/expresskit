@@ -8,7 +8,7 @@ interface SendEmailParams {
     {
       filename: string;
       content: Buffer;
-    }
+    },
   ];
 }
 
@@ -50,7 +50,7 @@ async function getSMTPTransporter() {
       EMAIL_PASSWORD
       EMAIL_HOST
       EMAIL_PORT
-      `
+      `,
     );
   }
 

@@ -6,5 +6,5 @@ app.use(
     msg: "HTTP {{req.method}} {{req.url}}",
     expressFormat: true,
     colorize: false,
-  })
+  }),
 );

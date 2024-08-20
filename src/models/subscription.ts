@@ -28,7 +28,7 @@ Subscriptions.init(
   {
     sequelize: sequelizeInstance,
     modelName: "subscriptions",
-  }
+  },
 );
 
 Auth.hasMany(Subscriptions, { foreignKey: "user_id" });

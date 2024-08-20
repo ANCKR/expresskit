@@ -23,7 +23,7 @@ const chatfn = async (req, res) => {
     return res.status(200).json({
       reply: result.response.candidates[0].content.parts[0].text?.replace(
         /\n/g,
-        ""
+        "",
       ),
     });
   } catch (error) {

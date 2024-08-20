@@ -14,7 +14,7 @@ export const createUserFcm = asyncHandeler(
     if (userFcm) {
       const status = await UserFcm.update(
         { status: 1 },
-        { where: { user_id: uuid } }
+        { where: { user_id: uuid } },
       );
       return res.status(200).json(new ApiResponse(200, "update successfully"));
     } else {
@@ -25,5 +25,5 @@ export const createUserFcm = asyncHandeler(
       });
       return res.status(200).json(new ApiResponse(200, "create successfully"));
     }
-  }
+  },
 );

@@ -13,7 +13,7 @@ const errorHandlerfn = (
   err: ErrorWithStatus,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const status = err instanceof ApiError ? err.statusCode : err.status || 500;
   const message = err.message.toLowerCase() || "An unexpected error occurred";

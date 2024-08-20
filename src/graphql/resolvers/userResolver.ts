@@ -53,10 +53,10 @@ const userResolver = {
             email,
             image,
           },
-          { where: { id: id } }
+          { where: { id: id } },
         );
         return { message: "update successfully" };
-      }
+      },
     ),
     deleteUser: asyncHandler(async (_, { id }, context) => {
       if (!context.user) {
@@ -90,7 +90,7 @@ const userResolver = {
               where: {
                 username: context.user.username,
               },
-            }
+            },
           );
 
           if (updated) {

@@ -32,7 +32,7 @@ CustomerSubscription.init(
   {
     sequelize: sequelizeInstance,
     modelName: "customer-subscriptions",
-  }
+  },
 );
 
 Auth.hasMany(CustomerSubscription, { foreignKey: "user_id" });

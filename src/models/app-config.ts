@@ -51,7 +51,7 @@ AppConfig.init(
     modelName: "AppConfig",
     tableName: "app-configs",
     timestamps: true, // Automatically manage `createdAt` and `updatedAt`
-  }
+  },
 );
 
 export default AppConfig;

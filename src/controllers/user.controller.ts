@@ -34,21 +34,21 @@ const upload = multer({ storage: storage });
 
 const generateAccessAndRefereshTokens = async (
   username: string,
-  unique_id_key: number
+  unique_id_key: number,
 ) => {
   try {
     const accessToken = await generateAccessToken({ username });
     const refreshToken = await generateRefreshToken({ username });
     await Auth.update(
       { refreshToken: refreshToken },
-      { where: { unique_id_key: unique_id_key } }
+      { where: { unique_id_key: unique_id_key } },
     );
     return { accessToken, refreshToken };
   } catch (error) {
     logger.error(error);
     throw createCustomError(
       "Something went wrong while generating referesh and access token",
-      500
+      500,
     );
   }
 };
@@ -79,7 +79,7 @@ export const updateUserDetails = asyncHandeler(
       },
       {
         where: { id: unique_id_key },
-      }
+      },
     );
 
     if (!user) {
@@ -89,7 +89,7 @@ export const updateUserDetails = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "User update successfully"));
-  }
+  },
 );
 
 export const deleteUserDetails = asyncHandeler(
@@ -112,7 +112,7 @@ export const deleteUserDetails = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "User deleted successfully"));
-  }
+  },
 );
 
 export const profileDetails = asyncHandeler(
@@ -124,9 +124,9 @@ export const profileDetails = asyncHandeler(
     return res.status(200).json(
       new ApiResponse(200, "Users found", {
         users: users,
-      })
+      }),
     );
-  }
+  },
 );
 
 export const profileDetailsByUserId = asyncHandeler(
@@ -139,9 +139,9 @@ export const profileDetailsByUserId = asyncHandeler(
     return res.status(200).json(
       new ApiResponse(200, "User found", {
         user: user,
-      })
+      }),
     );
-  }
+  },
 );
 
 export const resetPassword = asyncHandeler(
@@ -155,7 +155,7 @@ export const resetPassword = asyncHandeler(
 
     const [user] = await Auth.update(
       { password: hashedPassword },
-      { where: { unique_id_key: uuid } }
+      { where: { unique_id_key: uuid } },
     );
 
     if (!user) {
@@ -165,7 +165,7 @@ export const resetPassword = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "Reset Data Successfully", user));
-  }
+  },
 );
 
 export const getAllUserData = asyncHandeler(
@@ -174,7 +174,7 @@ export const getAllUserData = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "User data retrieved Successfully", users));
-  }
+  },
 );
 
 export const signout = asyncHandeler(async (req: Request, res: Response) => {
@@ -195,7 +195,7 @@ export const refreshAccessToken = asyncHandeler(
     const user = req.checkResult;
     const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
       user.username,
-      user.unique_id_key
+      user.unique_id_key,
     );
 
     return res
@@ -206,9 +206,9 @@ export const refreshAccessToken = asyncHandeler(
         new ApiResponse(200, "Access token refreshed", {
           accessToken,
           refreshToken: refreshToken,
-        })
+        }),
       );
-  }
+  },
 );
 
 export const uploadFile = asyncHandeler(async (req: Request, res: Response) => {
@@ -231,7 +231,7 @@ export const uploadFile = asyncHandeler(async (req: Request, res: Response) => {
           where: {
             username: req["user"].username,
           },
-        }
+        },
       );
       if (updated) {
         fs.unlink(file.path, (err) => {
@@ -268,11 +268,11 @@ export const downloadFile = asyncHandeler(
         if (user) {
           const { imageName, mimeType, data } = await fileDownloadFromSupabase(
             user.image,
-            res
+            res,
           );
           res.setHeader(
             "Content-Disposition",
-            `attachment; filename="${imageName}"`
+            `attachment; filename="${imageName}"`,
           );
           res.setHeader("Content-Type", mimeType);
           res.setHeader("Content-Length", data.size);
@@ -292,7 +292,7 @@ export const downloadFile = asyncHandeler(
         }
       }
     }
-  }
+  },
 );
 
 export const userNotification = asyncHandeler(
@@ -310,7 +310,7 @@ export const userNotification = asyncHandeler(
           .json(new ApiResponse(401, "Send notification unsuccessfully"));
       }
     } catch (error) {}
-  }
+  },
 );
 
 export const uploadImageBase64 = asyncHandeler(
@@ -339,7 +339,7 @@ export const uploadImageBase64 = asyncHandeler(
             where: {
               username: req["user"].username,
             },
-          }
+          },
         );
         await unlinkAsync("image.png");
         logger.info("Deleted image file");
@@ -357,5 +357,5 @@ export const uploadImageBase64 = asyncHandeler(
         }
       }
     }
-  }
+  },
 );

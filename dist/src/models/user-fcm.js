@@ -54,7 +54,7 @@ exports.createUserFcm = (0, asyncHandeler_1.default)((req, res) =>
     if (userFcm) {
       const status = yield userFcm_1.default.update(
         { status: 1 },
-        { where: { user_id: uuid } }
+        { where: { user_id: uuid } },
       );
       return res
         .status(200)
@@ -69,5 +69,5 @@ exports.createUserFcm = (0, asyncHandeler_1.default)((req, res) =>
         .status(200)
         .json(new ApiResponse_1.ApiResponse(200, "create successfully"));
     }
-  })
+  }),
 );

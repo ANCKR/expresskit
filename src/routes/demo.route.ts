@@ -4,6 +4,6 @@ import authenticateToken from "../middleware/authTokenCheck";
 
 const router = Router();
 
-router.get("/demo",authenticateToken, demo);
+router.get("/demo", authenticateToken, demo);
 
 export default router;

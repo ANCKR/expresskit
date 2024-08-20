@@ -70,6 +70,7 @@
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
+    "prettier": "^3.3.3",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",

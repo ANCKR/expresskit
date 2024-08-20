@@ -27,7 +27,7 @@ export const PaymentWebhook = asyncHandeler(
     const event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      webhookSecretKey
+      webhookSecretKey,
     );
 
     logger.info("stripe event", { event: event });
@@ -53,7 +53,7 @@ export const PaymentWebhook = asyncHandeler(
         logger.error("unhandled event type", { event: event.type });
         break;
     }
-  }
+  },
 );
 
 export const RazorPayWebhook = asyncHandeler(
@@ -98,5 +98,5 @@ export const RazorPayWebhook = asyncHandeler(
         logger.error("unhandled event type", { event: event.type });
         break;
     }
-  }
+  },
 );

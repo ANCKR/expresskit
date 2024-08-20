@@ -22,7 +22,7 @@ const options = {
 
 export const generateAccessAndRefereshTokens = async (
   username: string,
-  unique_id_key: UUID | string
+  unique_id_key: UUID | string,
 ) => {
   try {
     const accessToken = await generateAccessToken({ username, unique_id_key });
@@ -32,14 +32,14 @@ export const generateAccessAndRefereshTokens = async (
     });
     await Auth.update(
       { refreshToken: refreshToken },
-      { where: { unique_id_key: unique_id_key } }
+      { where: { unique_id_key: unique_id_key } },
     );
     return { accessToken, refreshToken };
   } catch (error) {
     logger.error(error);
     throw createCustomError(
       "Something went wrong while generating referesh and access token",
-      500
+      500,
     );
   }
 };
@@ -69,7 +69,7 @@ export const signUp = asyncHandeler(async (req: Request, res: Response) => {
   });
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
     username,
-    user?.dataValues.unique_id_key
+    user?.dataValues.unique_id_key,
   );
 
   const eventEmitter = new EventEmitter();
@@ -92,7 +92,7 @@ export const signUp = asyncHandeler(async (req: Request, res: Response) => {
       new ApiResponse(200, "Sign-up Successfully", {
         accessToken,
         refreshToken: refreshToken,
-      })
+      }),
     );
 });
 
@@ -105,7 +105,7 @@ export const signIn = asyncHandeler(async (req: Request, res: Response) => {
 
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
     username,
-    user?.dataValues.unique_id_key
+    user?.dataValues.unique_id_key,
   );
 
   return res
@@ -116,7 +116,7 @@ export const signIn = asyncHandeler(async (req: Request, res: Response) => {
       new ApiResponse(200, "Sign in Successfully", {
         accessToken,
         refreshToken: refreshToken,
-      })
+      }),
     );
 });
 
@@ -157,7 +157,7 @@ export const forgotPassword = asyncHandeler(
       htmlTemplate: resetPasswordTemplate(url),
     });
     return res.status(200).json(new ApiResponse(200, `${url}`));
-  }
+  },
 );
 
 export const resetPassword = asyncHandeler(
@@ -171,7 +171,7 @@ export const resetPassword = asyncHandeler(
 
     const [user] = await Auth.update(
       { password: hashedPassword },
-      { where: { unique_id_key: uuid } }
+      { where: { unique_id_key: uuid } },
     );
 
     if (!user) {
@@ -181,7 +181,7 @@ export const resetPassword = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "Reset Data Successfully", user));
-  }
+  },
 );
 
 export const getAllUserData = asyncHandeler(
@@ -198,7 +198,7 @@ export const getAllUserData = asyncHandeler(
     return res
       .status(200)
       .json(new ApiResponse(200, "User data retrieved Successfully", users));
-  }
+  },
 );
 
 export const signout = asyncHandeler(async (req: Request, res: Response) => {
@@ -219,7 +219,7 @@ export const refreshAccessToken = asyncHandeler(
     const user = req.checkResult;
     const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
       user.username,
-      user.unique_id_key
+      user.unique_id_key,
     );
 
     return res
@@ -230,7 +230,7 @@ export const refreshAccessToken = asyncHandeler(
         new ApiResponse(200, "Access token refreshed", {
           accessToken,
           refreshToken: refreshToken,
-        })
+        }),
       );
-  }
+  },
 );

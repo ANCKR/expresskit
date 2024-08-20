@@ -16,7 +16,7 @@ export const showAppVersion = asyncHandeler(
     }
 
     return res.status(200).json(new ApiResponse(200, "Version found", version));
-  }
+  },
 );
 
 export const appVersionInsert = asyncHandeler(
@@ -52,7 +52,7 @@ export const appVersionInsert = asyncHandeler(
         {
           status: "deprecate",
         },
-        { where: { status: "active" } }
+        { where: { status: "active" } },
       );
 
       if (!updateExistingVersion) {
@@ -66,5 +66,5 @@ export const appVersionInsert = asyncHandeler(
       });
       return res.status(200).json(new ApiResponse(200, "New version uploaded"));
     }
-  }
+  },
 );
