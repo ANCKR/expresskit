@@ -19,8 +19,6 @@ import userRoutes from "./routes/user.route";
 // import aiTranslatorRoutes from "./routes/aiTranslator.route";
 // import graphqlUploadExpress from "graphql-upload/GraphQLUpload.mjs";
 // import { AppoloServerPluginDrainHttpServer } from "apollo-server-core";
-import cors from "cors";
-import WebSocket from "ws";
 // import chatbotRoutes from "./routes/chatbot.route";
 // import userFcmRoutes from "./routes/userFcm.route";
 import appConfigRoutes from "./routes/appConfig.route";

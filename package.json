@@ -8,7 +8,9 @@
     "migration-creation": "npx sequelize-cli migration:generate --name table_name",
     "migration-push": "npm run sequelize db:migrate",
     "sequalize": "npx sequelize-cli init ",
-    "execute": "node dist/src/app.js"
+    "execute": "node dist/src/app.js",
+    "format": "prettier --write .",
+    "lint": "./node_modules/.bin/eslint --fix"
   },
   "keywords": [],
   "author": "",
@@ -57,7 +59,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.5.0",
+    "@eslint/js": "^9.9.0",
     "@types/bcrypt": "^5.0.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
@@ -66,9 +68,11 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "dotenv": "^16.4.5",
-    "globals": "^15.6.0",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.2.0"
   }
 }

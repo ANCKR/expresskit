@@ -72,7 +72,7 @@ export const signUp = asyncHandeler(async (req: Request, res: Response) => {
     user?.dataValues.unique_id_key
   );
 
-  let eventEmitter = new EventEmitter();
+  const eventEmitter = new EventEmitter();
   eventEmitter.on("emailSent", (data) => {
     sendingMail(data);
   });
@@ -130,19 +130,19 @@ export const forgotPassword = asyncHandeler(
       throw createCustomError("Invalid username", 401);
     }
 
-    let eventEmitter = new EventEmitter();
+    const eventEmitter = new EventEmitter();
     eventEmitter.on("emailSent", (data) => {
       sendingMail(data);
     });
 
     if (device === "Mobile") {
-      let query = `${user.dataValues.unique_id_key}/`;
+      const query = `${user.dataValues.unique_id_key}/`;
 
       // Locate the position to insert the query parameter
-      let insertPosition = url.indexOf("#Intent");
+      const insertPosition = url.indexOf("#Intent");
 
       // Insert the query parameter before "#Intent"
-      let newUrl =
+      const newUrl =
         url.slice(0, insertPosition) + query + url.slice(insertPosition);
       url = newUrl;
     } else {

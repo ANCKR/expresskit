@@ -6,7 +6,7 @@ class AppConfig extends Model {
   public app_version!: string;
   public new_changes!: string;
   public status!: "active" | "deprecate";
-  public isCompulsory!: Boolean;
+  public isCompulsory!: boolean;
 }
 
 AppConfig.init(

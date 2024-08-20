@@ -1,4 +1,4 @@
-import { checkUser, checkUserData } from "../helper/checkUserExist";
+import { checkUserData } from "../helper/checkUserExist";
 import { createCustomError } from "../utils/customError";
 import { verifyRefreshToken } from "../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";

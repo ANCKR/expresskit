@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -23,20 +23,20 @@ module.exports = {
     `);
 
     // Add foreign key constraint with ON DELETE CASCADE
-    await queryInterface.addConstraint('user', {
-      fields: ['id'],
-      type: 'foreign key',
-      name: 'fk_user_auth',
+    await queryInterface.addConstraint("user", {
+      fields: ["id"],
+      type: "foreign key",
+      name: "fk_user_auth",
       references: {
-        table: 'auths',
-        field: 'unique_id_key'
+        table: "auths",
+        field: "unique_id_key",
       },
-      onDelete: 'CASCADE'
+      onDelete: "CASCADE",
     });
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint('user', 'fk_user_auth');
+  async down(queryInterface) {
+    await queryInterface.removeConstraint("user", "fk_user_auth");
 
     // Drop trigger
     await queryInterface.sequelize.query(`
@@ -47,5 +47,5 @@ module.exports = {
     await queryInterface.sequelize.query(`
       DROP FUNCTION IF EXISTS create_user_on_auth_insert();
     `);
-  }
+  },
 };

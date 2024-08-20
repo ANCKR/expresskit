@@ -3,7 +3,7 @@ import staticConfig from "./staticConfig";
 import nodemailer from "nodemailer";
 
 async function getSMTPTransporter() {
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: staticConfig.smtpTransporter.service,
     auth: {
       user: staticConfig.smtpTransporter.email, // your email address to send from

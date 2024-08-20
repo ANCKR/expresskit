@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('user', {
+    await queryInterface.createTable("user", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -32,7 +32,7 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user');
-  }
+  down: async (queryInterface) => {
+    await queryInterface.dropTable("user");
+  },
 };

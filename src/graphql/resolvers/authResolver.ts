@@ -116,7 +116,7 @@ const authResolver = {
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options);
 
-      let eventEmitter = new EventEmitter();
+      const eventEmitter = new EventEmitter();
       eventEmitter.on("emailSent", (data) => {
         sendingMail(data);
       });
@@ -240,7 +240,7 @@ const authResolver = {
         throw createCustomError("User not found");
       }
 
-      let eventEmitter = new EventEmitter();
+      const eventEmitter = new EventEmitter();
       eventEmitter.on("emailSent", (data) => {
         sendingMail(data);
       });
