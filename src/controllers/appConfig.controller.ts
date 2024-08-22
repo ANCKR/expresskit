@@ -3,6 +3,7 @@ import asyncHandeler from "../utils/asyncHandeler";
 import { ApiResponse } from "../utils/ApiResponse";
 import AppConfig from "../models/app-config";
 import { createCustomError } from "../utils/customError";
+import logger from "../utils/logger";
 
 export const showAppVersion = asyncHandeler(
   async (req: Request, res: Response) => {
@@ -16,7 +17,7 @@ export const showAppVersion = asyncHandeler(
     }
 
     return res.status(200).json(new ApiResponse(200, "Version found", version));
-  },
+  }
 );
 
 export const appVersionInsert = asyncHandeler(
@@ -28,6 +29,7 @@ export const appVersionInsert = asyncHandeler(
         new_changes: details,
         isCompulsory: 0,
       });
+      logger.info("newVersion is not compulsory", newVersion);
       return res.status(200).json(new ApiResponse(200, "New version uploaded"));
     }
     if (isCompulsory) {
@@ -43,6 +45,7 @@ export const appVersionInsert = asyncHandeler(
           new_changes: details,
           isCompulsory: 1,
         });
+        logger.info("newVersion is not existed", newVersion);
         return res
           .status(200)
           .json(new ApiResponse(200, "New version uploaded"));
@@ -52,7 +55,7 @@ export const appVersionInsert = asyncHandeler(
         {
           status: "deprecate",
         },
-        { where: { status: "active" } },
+        { where: { status: "active" } }
       );
 
       if (!updateExistingVersion) {
@@ -64,7 +67,9 @@ export const appVersionInsert = asyncHandeler(
         new_changes: details,
         isCompulsory: 1,
       });
+
+      logger.info("new version is created", newVersion);
       return res.status(200).json(new ApiResponse(200, "New version uploaded"));
     }
-  },
+  }
 );

@@ -3,7 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { checkUser } from "../helper/checkUserExist";
 import { createCustomError } from "../utils/customError";
 import { verifyToken } from "../utils/jwt";
-import logger from "utils/logger";
+import logger from "../utils/logger";
 
 interface MyJwtPayload extends JwtPayload {
   username: string;
@@ -27,7 +27,7 @@ export function getUserFromToken(token: string) {
       throw createCustomError("username is undefined");
     }
   } catch (error: unknown) {
-    logger.error("error", error);
+    logger.error("error occures", { error: error });
     return null;
   }
 }

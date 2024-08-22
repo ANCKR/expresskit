@@ -2,7 +2,6 @@ import Auth from "../../models/auth";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import validateAttributes from "../../helper/validation";
-import supabase from "../../../supabase";
 import asyncHandler from "../../utils/asyncHandelerForGraphql";
 import { createCustomError } from "../../utils/customError";
 import {
@@ -41,21 +40,21 @@ interface Users {
 
 export const generateAccessAndRefereshTokens = async (
   username: string,
-  unique_id_key: UUID | string,
+  unique_id_key: UUID | string
 ) => {
   try {
     const accessToken = await generateAccessToken({ username });
     const refreshToken = await generateRefreshToken({ username });
     await Auth.update(
       { refreshToken: refreshToken },
-      { where: { unique_id_key: unique_id_key } },
+      { where: { unique_id_key: unique_id_key } }
     );
     return { accessToken, refreshToken };
   } catch (error) {
     logger.error(error);
     throw createCustomError(
       "Something went wrong while generating referesh and access token",
-      500,
+      500
     );
   }
 };
@@ -181,7 +180,7 @@ const authResolver = {
       const { accessToken, refreshToken } =
         await generateAccessAndRefereshTokens(
           username,
-          user?.dataValues.unique_id_key,
+          user?.dataValues.unique_id_key
         );
       context.res
         .cookie("accessToken", accessToken, options)
@@ -205,31 +204,29 @@ const authResolver = {
       const { accessToken, refreshToken } =
         await generateAccessAndRefereshTokens(
           checkResult.username,
-          checkResult.unique_id_key,
+          checkResult.unique_id_key
         );
       context.res
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options);
       return { message: "Access token refreshed", token: accessToken };
     }),
-    resetPassword: asyncHandler(
-      async (_, { unique_id_key, password }, context) => {
-        if (!validateAttributes(password, "passwordcheck")) {
-          throw createCustomError("Invalid password");
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await Auth.update(
-          { password: hashedPassword },
-          { where: { unique_id_key: unique_id_key } },
-        );
+    resetPassword: asyncHandler(async (_, { unique_id_key, password }) => {
+      if (!validateAttributes(password, "passwordcheck")) {
+        throw createCustomError("Invalid password");
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await Auth.update(
+        { password: hashedPassword },
+        { where: { unique_id_key: unique_id_key } }
+      );
 
-        if (!user) {
-          throw createCustomError("Invalid uuid", 401);
-        }
-        return { message: "Reset Data Successfully" };
-      },
-    ),
-    forgotPassword: asyncHandler(async (_, { username }, context) => {
+      if (!user) {
+        throw createCustomError("Invalid uuid", 401);
+      }
+      return { message: "Reset Data Successfully" };
+    }),
+    forgotPassword: asyncHandler(async (_, { username }) => {
       if (!validateAttributes(username, "emailcheck")) {
         throw createCustomError("Invalid username");
       }

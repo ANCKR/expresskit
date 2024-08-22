@@ -9,7 +9,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 export const uploadFileToSupabase = async (filePath, fileName) => {
   try {
     const date = new Date().toISOString();
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
       .upload(date, Buffer.from(filePath), {
         upsert: true,
@@ -33,7 +33,7 @@ export const uploadFileToSupabase = async (filePath, fileName) => {
 export const uploadFileToSupabaseBase64 = async (filePath, fileName) => {
   try {
     const date = new Date().toISOString();
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
       .upload(date, filePath, {
         contentType: fileName,

@@ -1,9 +1,5 @@
 import { verifyToken } from "../utils/jwt";
 
-const jwt = require("jsonwebtoken");
-
-const secretKey = "your_secret_key";
-
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.accessToken;
 

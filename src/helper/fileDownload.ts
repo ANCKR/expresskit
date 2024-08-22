@@ -7,7 +7,7 @@ const SUPABASE_KEY = process.env.SUPABASE_SECRETKEY;
 const BUCKET_NAME = process.env.SUPABASE_BUCKET;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const fileDownloadFromSupabase = async (filePath, res) => {
+const fileDownloadFromSupabase = async (filePath) => {
   try {
     const imageName = await getImageName(filePath);
     const { data, error } = await supabaseClient.storage

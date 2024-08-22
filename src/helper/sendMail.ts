@@ -50,7 +50,7 @@ async function getSMTPTransporter() {
       EMAIL_PASSWORD
       EMAIL_HOST
       EMAIL_PORT
-      `,
+      `
     );
   }
 
@@ -63,59 +63,6 @@ async function getSMTPTransporter() {
       pass,
     },
   });
-}
-
-async function getEtherealMailTransporter() {
-  const nodemailer = await import("nodemailer");
-  const testAccount = await getEtherealTestAccount();
-
-  const host = "smtp.ethereal.email";
-  const port = 587;
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  });
-}
-
-function getMockMailTransporter() {
-  return {
-    sendMail(params: SendEmailParams) {},
-  };
-}
-
-async function getEtherealTestAccount() {
-  const user = process.env.ETHEREAL_EMAIL;
-  const pass = process.env.ETHEREAL_PASSWORD;
-
-  // if we have added an Ethereal account, we reuse these credentials to
-  // send the email
-  if (user && pass) {
-    return {
-      user,
-      pass,
-    };
-  }
-
-  // Otherwise, we create a new account and recommend to add the credentials
-  // to the configuration file
-  return createEtherealTestAccount();
-}
-
-async function createEtherealTestAccount() {
-  const nodemailer = await import("nodemailer");
-  const newAccount = await nodemailer.createTestAccount();
-
-  return newAccount;
-}
-
-function isTest() {
-  return process.env.IS_CI === "true";
 }
 
 export const resetPasswordTemplate = (baseUrl: string) => `

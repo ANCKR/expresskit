@@ -137,7 +137,7 @@ async function startServer() {
     .then(() => {
       app.listen(port, () => {
         logger.info(
-          `Server is running on http://localhost:${port} & for graphql use http://localhost:${port}/graphql`,
+          `Server is running on http://localhost:${port} & for graphql use http://localhost:${port}/graphql`
         );
       });
     })

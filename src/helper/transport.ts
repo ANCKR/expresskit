@@ -13,7 +13,12 @@ async function getSMTPTransporter() {
   return transporter;
 }
 
-async function sendingMail(mailDetails: any) {
+async function sendingMail(mailDetails: {
+  senderEmail: string;
+  subject: string;
+  htmlTemplate?: string;
+  text?: string;
+}) {
   let mailOptions = {};
   if (mailDetails.htmlTemplate) {
     mailOptions = {
