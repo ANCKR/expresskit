@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelizeInstance from "./index";
 
 class User extends Model {
@@ -23,7 +23,7 @@ User.init(
     sequelize: sequelizeInstance,
     modelName: "user",
     tableName: "user",
-  }
+  },
 );
 
 export default User;

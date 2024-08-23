@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import logger from "../utils/logger";
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -14,7 +15,7 @@ if (!admin.apps.length) {
       auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
       client_x509_cert_url: process.env.FIREBASE_CLIENT_AUTH_PROVIDER_CERT_URL,
       universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
-    } as any),
+    } as unknown),
   });
 }
 
@@ -35,7 +36,7 @@ export const sendNotification = async (
     await admin.messaging().send(message);
     return true;
   } catch (error) {
-    console.log(error);
+    logger.error("error occurs", error);
     return false;
   }
 };

@@ -1,9 +1,8 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.sequelize.query(`
+export async function up(queryInterface) {
+  await queryInterface.sequelize.query(`
       CREATE OR REPLACE FUNCTION create_user_on_auth_insert()
       RETURNS TRIGGER AS $$
       BEGIN
@@ -14,38 +13,36 @@ module.exports = {
       $$ LANGUAGE plpgsql;
     `);
 
-    // Create trigger
-    await queryInterface.sequelize.query(`
+  // Create trigger
+  await queryInterface.sequelize.query(`
       CREATE TRIGGER trigger_create_user
       AFTER INSERT ON "auths"
       FOR EACH ROW
       EXECUTE FUNCTION create_user_on_auth_insert();
     `);
 
-    // Add foreign key constraint with ON DELETE CASCADE
-    await queryInterface.addConstraint('user', {
-      fields: ['id'],
-      type: 'foreign key',
-      name: 'fk_user_auth',
-      references: {
-        table: 'auths',
-        field: 'unique_id_key'
-      },
-      onDelete: 'CASCADE'
-    });
-  },
+  // Add foreign key constraint with ON DELETE CASCADE
+  await queryInterface.addConstraint("user", {
+    fields: ["id"],
+    type: "foreign key",
+    name: "fk_user_auth",
+    references: {
+      table: "auths",
+      field: "unique_id_key",
+    },
+    onDelete: "CASCADE",
+  });
+}
+export async function down(queryInterface) {
+  await queryInterface.removeConstraint("user", "fk_user_auth");
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint('user', 'fk_user_auth');
-
-    // Drop trigger
-    await queryInterface.sequelize.query(`
+  // Drop trigger
+  await queryInterface.sequelize.query(`
       DROP TRIGGER IF EXISTS trigger_create_user ON "auths";
     `);
 
-    // Drop function
-    await queryInterface.sequelize.query(`
+  // Drop function
+  await queryInterface.sequelize.query(`
       DROP FUNCTION IF EXISTS create_user_on_auth_insert();
     `);
-  }
-};
+}

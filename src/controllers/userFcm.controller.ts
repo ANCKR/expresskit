@@ -2,6 +2,7 @@ import asyncHandeler from "utils/asyncHandeler";
 import { Request, Response } from "express";
 import UserFcm from "models/userFcm";
 import { ApiResponse } from "utils/ApiResponse";
+import logger from "utils/logger";
 
 export const createUserFcm = asyncHandeler(
   async (req: Request, res: Response) => {
@@ -16,7 +17,7 @@ export const createUserFcm = asyncHandeler(
         { status: 1 },
         { where: { user_id: uuid } }
       );
-      console.log(status);
+      logger.info("status is here", status);
       return res.status(200).json(new ApiResponse(200, "update successfully"));
     } else {
       const status = await UserFcm.create({
@@ -24,8 +25,7 @@ export const createUserFcm = asyncHandeler(
         fcm_token: fcmToken,
         device_token: deviceToken,
       });
-
-      console.log(status);
+      console.log("status is showing", status);
       return res.status(200).json(new ApiResponse(200, "create successfully"));
     }
   }

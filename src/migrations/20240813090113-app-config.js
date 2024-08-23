@@ -1,29 +1,29 @@
 "use strict";
+
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("auths", {
+  await queryInterface.createTable("app-configs", {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    username: {
+    app_version: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    password: {
-      type: Sequelize.STRING,
+    new_changes: {
+      type: Sequelize.TEXT,
       allowNull: false,
     },
-    unique_id_key: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      allowNull: true,
-      unique: true,
+    isCompulsory: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
     },
-    refreshToken: {
-      type: Sequelize.STRING,
+    status: {
+      type: Sequelize.ENUM("active", "deprecate"),
+      defaultValue: "active", // Corrected the default value
       allowNull: true,
     },
     createdAt: {
@@ -37,5 +37,5 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 export async function down(queryInterface) {
-  await queryInterface.dropTable("auths");
+  await queryInterface.dropTable("app-configs");
 }

@@ -1,17 +1,8 @@
-import Auth from "../../models/auth";
-import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcrypt";
 import validateAttributes from "../../helper/validation";
-import supabase from "../../../supabase";
 import asyncHandler from "../../utils/asyncHandelerForGraphql";
 import { createCustomError } from "../../utils/customError";
-import { generateAccessAndRefereshTokens } from "../../controllers/auth.controller";
 import User from "../../models/user";
 import { uploadFileToSupabase } from "../../helper/fileUpload";
-const options = {
-  httpOnly: true,
-  secure: true,
-};
 
 const userResolver = {
   Query: {
@@ -74,7 +65,7 @@ const userResolver = {
         throw createCustomError("Unauthorized");
       }
       const RETRY_LIMIT = 3;
-      const { createReadStream, filename, mimetype, encoding } = await file;
+      const { createReadStream, filename } = await file;
       const stream = createReadStream();
 
       let attempt = 1;

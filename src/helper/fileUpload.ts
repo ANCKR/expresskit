@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { createCustomError } from "../utils/customError";
 
-const SUPABASE_URL = process.env.NEW_SUPABASE_URL;
+const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SECRETKEY;
 const BUCKET_NAME = process.env.SUPABASE_BUCKET;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -9,7 +9,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 export const uploadFileToSupabase = async (filePath, fileName) => {
   try {
     const date = new Date().toISOString();
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
       .upload(date, Buffer.from(filePath), {
         upsert: true,
@@ -33,7 +33,7 @@ export const uploadFileToSupabase = async (filePath, fileName) => {
 export const uploadFileToSupabaseBase64 = async (filePath, fileName) => {
   try {
     const date = new Date().toISOString();
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
       .from(BUCKET_NAME)
       .upload(date, filePath, {
         contentType: fileName,

@@ -72,7 +72,7 @@ export const signUp = asyncHandeler(async (req: Request, res: Response) => {
     user?.dataValues.unique_id_key
   );
 
-  let eventEmitter = new EventEmitter();
+  const eventEmitter = new EventEmitter();
   eventEmitter.on("emailSent", (data) => {
     sendingMail(data);
   });
@@ -130,19 +130,19 @@ export const forgotPassword = asyncHandeler(
       throw createCustomError("Invalid username", 401);
     }
 
-    let eventEmitter = new EventEmitter();
+    const eventEmitter = new EventEmitter();
     eventEmitter.on("emailSent", (data) => {
       sendingMail(data);
     });
 
     if (device === "Mobile") {
-      let query = `${user.dataValues.unique_id_key}/`;
+      const query = `${user.dataValues.unique_id_key}/`;
 
       // Locate the position to insert the query parameter
-      let insertPosition = url.indexOf("#Intent");
+      const insertPosition = url.indexOf("#Intent");
 
       // Insert the query parameter before "#Intent"
-      let newUrl =
+      const newUrl =
         url.slice(0, insertPosition) + query + url.slice(insertPosition);
       url = newUrl;
     } else {
@@ -206,11 +206,12 @@ export const signout = asyncHandeler(async (req: Request, res: Response) => {
   return res.status(200).json(new ApiResponse(200, "Logged out successfully"));
 });
 
-declare global {
-  namespace Express {
-    interface Request {
-      checkResult?: any; // Replace `any` with a specific type if you have a User type defined
-    }
+// Create a file like expressRequest.d.ts (a TypeScript declaration file)
+
+// Extend the Request interface to include the checkResult property
+declare module "express-serve-static-core" {
+  interface Request {
+    checkResult?: { username: string; unique_id_key: string }; // Replace `unknown` with a specific type if you have a specific type defined
   }
 }
 

@@ -2,7 +2,6 @@ import Auth from "../../models/auth";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import validateAttributes from "../../helper/validation";
-import supabase from "../../../supabase";
 import asyncHandler from "../../utils/asyncHandelerForGraphql";
 import { createCustomError } from "../../utils/customError";
 import {
@@ -116,7 +115,7 @@ const authResolver = {
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options);
 
-      let eventEmitter = new EventEmitter();
+      const eventEmitter = new EventEmitter();
       eventEmitter.on("emailSent", (data) => {
         sendingMail(data);
       });
@@ -212,24 +211,22 @@ const authResolver = {
         .cookie("refreshToken", refreshToken, options);
       return { message: "Access token refreshed", token: accessToken };
     }),
-    resetPassword: asyncHandler(
-      async (_, { unique_id_key, password }, context) => {
-        if (!validateAttributes(password, "passwordcheck")) {
-          throw createCustomError("Invalid password");
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await Auth.update(
-          { password: hashedPassword },
-          { where: { unique_id_key: unique_id_key } }
-        );
-
-        if (!user) {
-          throw createCustomError("Invalid uuid", 401);
-        }
-        return { message: "Reset Data Successfully" };
+    resetPassword: asyncHandler(async (_, { unique_id_key, password }) => {
+      if (!validateAttributes(password, "passwordcheck")) {
+        throw createCustomError("Invalid password");
       }
-    ),
-    forgotPassword: asyncHandler(async (_, { username }, context) => {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await Auth.update(
+        { password: hashedPassword },
+        { where: { unique_id_key: unique_id_key } }
+      );
+
+      if (!user) {
+        throw createCustomError("Invalid uuid", 401);
+      }
+      return { message: "Reset Data Successfully" };
+    }),
+    forgotPassword: asyncHandler(async (_, { username }) => {
       if (!validateAttributes(username, "emailcheck")) {
         throw createCustomError("Invalid username");
       }
@@ -240,7 +237,7 @@ const authResolver = {
         throw createCustomError("User not found");
       }
 
-      let eventEmitter = new EventEmitter();
+      const eventEmitter = new EventEmitter();
       eventEmitter.on("emailSent", (data) => {
         sendingMail(data);
       });

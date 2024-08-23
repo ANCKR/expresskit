@@ -19,10 +19,9 @@ import userRoutes from "./routes/user.route";
 // import aiTranslatorRoutes from "./routes/aiTranslator.route";
 // import graphqlUploadExpress from "graphql-upload/GraphQLUpload.mjs";
 // import { AppoloServerPluginDrainHttpServer } from "apollo-server-core";
-import cors from "cors";
-import WebSocket from "ws";
 // import chatbotRoutes from "./routes/chatbot.route";
-import userFcmRoutes from "./routes/userFcm.route";
+// import userFcmRoutes from "./routes/userFcm.route";
+import appConfigRoutes from "./routes/appConfig.route";
 
 // Create an instance of ApolloServer
 const server = new ApolloServer({
@@ -83,7 +82,7 @@ app.options("*", function (req, res) {
 
 //payment webhook
 app.use("/api", paymentRoutes);
-app.use("/api", userFcmRoutes);
+// app.use("/api", userFcmRoutes);
 // app.use("/api", chatbotRoutes);
 
 // wss.on("connection", function connection(ws) {
@@ -116,7 +115,7 @@ app.get("/", (req, res) => {
 app.use("/api", demoRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-// app.use("/api", aiTranslatorRoutes);
+app.use("/api", appConfigRoutes);
 
 async function startServer() {
   //error handling

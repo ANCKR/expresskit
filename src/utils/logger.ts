@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import { randomBytes } from "crypto";
@@ -8,6 +7,7 @@ const { combine, timestamp, printf, colorize } = winston.format;
 // Define custom log format
 const logFormat = printf(({ level, message, timestamp, ...data }) => {
   const ENV = process.env.NODE_ENV || "development";
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const deviceInfo = `Hostname: ${require("os").hostname()}, Platform: ${require("os").platform()}, Arch: ${require("os").arch()}`;
   const generateLogId = (): string => randomBytes(16).toString("hex");
   const appVersion: string = process.env.npm_package_version || "unknown";

@@ -1,17 +1,11 @@
 import { sendNotification } from "../helper/sendNotification";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 import validateAttributes from "../helper/validation";
 import Auth from "../models/auth";
 import asyncHandeler from "../utils/asyncHandeler";
 import { createCustomError } from "../utils/customError";
-import { createSuccessResponse } from "../utils/createSuccessResponse";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken,
-} from "../utils/jwt";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
 import { ApiResponse } from "../utils/ApiResponse";
 import logger from "../utils/logger";
 import User from "../models/user";
@@ -31,10 +25,11 @@ const options = {
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+logger.info("upload", upload);
 
 const generateAccessAndRefereshTokens = async (
   username: string,
-  unique_id_key: number
+  unique_id_key: string
 ) => {
   try {
     const accessToken = await generateAccessToken({ username });
@@ -182,11 +177,9 @@ export const signout = asyncHandeler(async (req: Request, res: Response) => {
   return res.status(200).json(new ApiResponse(200, "Logged out successfully"));
 });
 
-declare global {
-  namespace Express {
-    interface Request {
-      checkResult?: any; // Replace `any` with a specific type if you have a User type defined
-    }
+declare module "express-serve-static-core" {
+  interface Request {
+    checkResult?: { username: string; unique_id_key: string }; // Replace `unknown` with a specific type if you have a specific type defined
   }
 }
 
@@ -267,8 +260,7 @@ export const downloadFile = asyncHandeler(
         });
         if (user) {
           const { imageName, mimeType, data } = await fileDownloadFromSupabase(
-            user.image,
-            res
+            user.image
           );
           res.setHeader(
             "Content-Disposition",
@@ -309,7 +301,9 @@ export const userNotification = asyncHandeler(
           .status(401)
           .json(new ApiResponse(401, "Send notification unsuccessfully"));
       }
-    } catch (error) {}
+    } catch (error) {
+      logger.error("error is occurs", error);
+    }
   }
 );
 

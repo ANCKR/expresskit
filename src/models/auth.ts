@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelizeInstance from "./index";
 import User from "./user";
 
@@ -21,7 +21,7 @@ Auth.init(
     sequelize: sequelizeInstance,
     modelName: "auth",
     tableName: "auths",
-  }
+  },
 );
 
 Auth.hasOne(User, {
